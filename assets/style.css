@@ -57,6 +57,19 @@ body {
   letter-spacing: 0.01em;
 }
 
+/* ---------------- In-game exit bar ---------------- */
+.game-page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.game-exit-bar { display: flex; }
+.btn-exit {
+  padding: 10px 16px;
+  min-height: 40px;
+  font-size: 0.95rem;
+}
+
 /* ---------------- Main "paper" content area ---------------- */
 main#app {
   max-width: 760px;

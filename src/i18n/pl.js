@@ -24,6 +24,7 @@ const STRINGS = {
   level2: 'Poziom 2: wpisz brakujące literki',
   level3: 'Poziom 3: napisz całe słowo',
   back: 'Wstecz',
+  exit: '← Wyjdź z gry',
   speak: 'Odsłuchaj słowo',
   correct: 'Brawo! Dobrze!',
   incorrectTryAgain: 'Prawie! Sprawdź jeszcze raz.',

@@ -188,9 +188,33 @@ function showLevelSelect(list) {
 // ---------- Game screen ----------
 function startGame(list, mode, level) {
   app.innerHTML = '';
+
+  // This bar lives *outside* the game's own container, because both games
+  // clear and rebuild their container on every word/round — an exit button
+  // placed inside it would disappear as soon as play began.
+  const gamePage = document.createElement('div');
+  gamePage.className = 'game-page';
+
+  const exitBar = document.createElement('div');
+  exitBar.className = 'game-exit-bar';
+  const exitBtn = document.createElement('button');
+  exitBtn.type = 'button';
+  exitBtn.className = 'btn btn-secondary btn-exit';
+  exitBtn.textContent = t('exit');
+  exitBtn.addEventListener('click', () => {
+    // Go back exactly one step: gap-fill came from the level screen,
+    // sorting came straight from the mode screen.
+    if (mode === 'gapfill') showLevelSelect(list);
+    else showModeSelect(list);
+  });
+  exitBar.appendChild(exitBtn);
+  gamePage.appendChild(exitBar);
+
   const container = document.createElement('div');
   container.className = 'screen game-screen-wrap';
-  app.appendChild(container);
+  gamePage.appendChild(container);
+
+  app.appendChild(gamePage);
 
   const finish = (score) => showResults(list, mode, level, score);
   if (mode === 'gapfill') renderGapFill(container, list, level, finish);

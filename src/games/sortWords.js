@@ -24,7 +24,11 @@ function shuffle(arr) {
 
 export function renderSortWords(container, list, onFinish) {
   const ordered = sortedWords(list, 'order');
-  const roundWords = ordered.slice(0, Math.min(6, ordered.length));
+  // Cap at 12 rather than the list's full length: this keeps a very long
+  // custom list from producing an unmanageable row of tiles, while still
+  // covering both shipped lists that need their *entire* order practiced
+  // (7 days, 12 months) — a lower cap was silently truncating those.
+  const roundWords = ordered.slice(0, Math.min(12, ordered.length));
   const shuffled = shuffle(roundWords);
 
   container.innerHTML = '';

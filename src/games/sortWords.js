@@ -6,7 +6,9 @@ import { speakEnglish, ttsAvailable } from '../tts.js';
 import { makeSortable } from '../dragdrop.js';
 import { sortedWords } from '../wordbank.js';
 import { saveScore } from '../storage.js';
-import { t } from '../i18n/pl.js';
+import { showToast } from '../toast.js';
+import { playCorrect, playIncorrect } from '../sound.js';
+import { t, randomPraise } from '../i18n/pl.js';
 
 const SPEAKER_SVG =
   '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" ' +
@@ -116,6 +118,8 @@ export function renderSortWords(container, list, onFinish) {
     if (correct === slots.length) {
       feedback.textContent = t('correct');
       feedback.className = 'feedback feedback-correct';
+      showToast(randomPraise(), { variant: 'success' });
+      playCorrect();
       const score = { correct, total: slots.length };
       saveScore(`${list.id}:sort`, score);
       controls.innerHTML = '';
@@ -128,6 +132,7 @@ export function renderSortWords(container, list, onFinish) {
     } else {
       feedback.textContent = t('someWrongTryAgain');
       feedback.className = 'feedback feedback-incorrect';
+      playIncorrect();
     }
   }
 }

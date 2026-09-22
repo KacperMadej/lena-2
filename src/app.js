@@ -2,7 +2,22 @@ import { loadBuiltinLists, parseCSV, WordList } from './wordbank.js';
 import { getCustomLists, saveCustomList, deleteCustomList, getScore } from './storage.js';
 import { renderGapFill } from './games/gapFill.js';
 import { renderSortWords } from './games/sortWords.js';
+import { showCelebration } from './toast.js';
+import { playCelebration } from './sound.js';
 import { t } from './i18n/pl.js';
+
+// Single source of truth for the version shown in the footer. Bump this,
+// and the ?v= cache-busting query strings in index.html, on every release
+// that changes CSS/JS — see docs/RELEASE.md.
+export const APP_VERSION = '0.2.0';
+
+// Easter egg: a perfect score on one of these specific lists adds a bonus
+// of matching emoji gently falling around the celebration card, on top of
+// the celebration every perfect score gets.
+const EASTER_EGG_EMOJI = {
+  colors: ['🎨', '🌈', '🖍️', '🧶'],
+  seasons: ['🌸', '☀️', '🍂', '❄️'],
+};
 
 const app = document.getElementById('app');
 let builtinLists = [];
@@ -247,9 +262,19 @@ function showResults(list, mode, level, score) {
   wrap.appendChild(homeBtn);
 
   app.appendChild(wrap);
+
+  if (score.total > 0 && score.correct === score.total) {
+    playCelebration();
+    showCelebration(`🎉 ${t('perfectScore')} 🎉`, {
+      emojiRain: EASTER_EGG_EMOJI[list.id] || [],
+    });
+  }
 }
 
 async function init() {
+  const versionEl = document.getElementById('appVersionText');
+  if (versionEl) versionEl.textContent = APP_VERSION;
+
   builtinLists = await loadBuiltinLists();
   showHome();
 }

@@ -10,7 +10,9 @@ import { renderKeyboard } from '../keyboard.js';
 import { makeSortable } from '../dragdrop.js';
 import { sortedWords } from '../wordbank.js';
 import { saveScore } from '../storage.js';
-import { t } from '../i18n/pl.js';
+import { showToast } from '../toast.js';
+import { playCorrect, playIncorrect } from '../sound.js';
+import { t, randomPraise } from '../i18n/pl.js';
 
 const SPEAKER_SVG =
   '<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" ' +
@@ -107,10 +109,13 @@ export function renderGapFill(container, list, level, onFinish) {
         feedback.textContent = t('correct');
         feedback.className = 'feedback feedback-correct';
         boxes.forEach((b) => b.classList.add('box-correct'));
+        showToast(randomPraise(), { variant: 'success' });
+        playCorrect();
       } else {
         feedback.textContent = t('incorrectTryAgain');
         feedback.className = 'feedback feedback-incorrect';
         gapIdx.forEach((i) => boxes[i].classList.add('box-wrong'));
+        playIncorrect();
       }
       controlsArea.innerHTML = '';
       if (!isCorrect) {

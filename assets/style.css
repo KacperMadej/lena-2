@@ -1,28 +1,30 @@
 /* ============================================================
    Design tokens
    Theme: a page from a school notebook (the play area) resting
-   on a chalkboard-navy desk (the app chrome). Chunky, pressable
-   "wooden block" tiles and buttons stand in for generic flat UI.
+   on a soft, light desk — calm, happy colors built around a
+   fresh green and a warm orange, with a muted red reserved
+   strictly for "try again" feedback.
    ============================================================ */
 :root {
-  --ink: #22314C;
-  --ink-soft: #55628A;
-  --paper: #FFFBF3;
-  --paper-line: #E7DEC8;
+  --ink: #33513F;
+  --ink-soft: #5E7A6B;
+  --bg-outer: #EAF3E6;
+  --paper: #FCFAF2;
+  --paper-line: #E6EEDF;
 
-  --coral: #EF6461;
-  --coral-dark: #C94E4B;
-  --sky: #2FA4C9;
-  --sky-dark: #1F7E9E;
-  --marigold: #F5A623;
-  --marigold-dark: #C9820F;
-  --grass: #4CAF6D;
-  --grass-dark: #368650;
+  --green: #5FAE65;
+  --green-dark: #3F8A48;
+  --orange: #F2994A;
+  --orange-dark: #C9722C;
+  --sun: #F7C948;
+
+  --coral: #E2665F;
+  --coral-dark: #B94E48;
 
   --font-display: 'Baloo 2', system-ui, sans-serif;
   --font-body: 'Nunito', system-ui, sans-serif;
 
-  --radius: 16px;
+  --radius: 18px;
 }
 
 * { box-sizing: border-box; }
@@ -33,28 +35,36 @@ html, body {
 
 body {
   margin: 0;
-  background: var(--ink);
+  background: var(--bg-outer);
   font-family: var(--font-body);
   color: var(--ink);
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* ---------------- Header (the "desk") ---------------- */
+/* ---------------- Header ---------------- */
 .app-header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 18px 16px;
-  color: #FBF6E9;
+  padding: 20px 16px 8px;
+  color: var(--ink);
 }
-.logo-icon { color: var(--marigold); flex-shrink: 0; }
+.logo-icon { color: var(--orange); flex-shrink: 0; }
 .app-header-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   letter-spacing: 0.01em;
+}
+
+/* ---------------- Footer / version ---------------- */
+.app-footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  padding: 6px 16px 22px;
 }
 
 /* ---------------- In-game exit bar ---------------- */
@@ -70,9 +80,12 @@ body {
   font-size: 0.95rem;
 }
 
-/* ---------------- Main "paper" content area ---------------- */
+/* ---------------- Main "paper" content area ----------------
+   Sized ~20% larger than the original 760px so a tablet's
+   landscape width is actually used rather than leaving both
+   sides mostly empty. */
 main#app {
-  max-width: 760px;
+  max-width: 920px;
   margin: 0 auto 40px;
   padding: 4px 4px 32px;
 }
@@ -85,14 +98,14 @@ main#app {
     transparent 39px,
     var(--paper-line) 40px
   );
-  border-radius: 24px;
-  padding: 28px 24px 32px;
-  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.18), 0 16px 30px rgba(0, 0, 0, 0.25);
+  border-radius: 26px;
+  padding: 34px 30px 38px;
+  box-shadow: 0 10px 0 rgba(51, 81, 63, 0.15), 0 18px 32px rgba(51, 81, 63, 0.16);
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 14px;
-  min-height: 420px;
+  gap: 16px;
+  min-height: 460px;
 }
 
 .screen h1, .screen h2 {
@@ -101,10 +114,10 @@ main#app {
   color: var(--ink);
   margin: 0 0 4px;
 }
-.screen h2 { font-size: 1.5rem; }
+.screen h2 { font-size: 1.7rem; }
 
 .instructions {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--ink-soft);
   margin: 0 0 4px;
   line-height: 1.5;
@@ -114,21 +127,21 @@ main#app {
 .btn {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   border: none;
   border-radius: var(--radius);
-  padding: 14px 22px;
+  padding: 16px 26px;
   cursor: pointer;
   color: white;
-  min-height: 52px;
+  min-height: 58px;
   touch-action: manipulation;
   transition: transform 0.08s ease;
 }
-.btn-primary { background: var(--coral); box-shadow: 0 5px 0 var(--coral-dark); }
-.btn-primary:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--coral-dark); }
-.btn-secondary { background: var(--sky); box-shadow: 0 5px 0 var(--sky-dark); }
-.btn-secondary:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--sky-dark); }
-.btn:focus-visible { outline: 3px solid var(--marigold); outline-offset: 2px; }
+.btn-primary { background: var(--green); box-shadow: 0 5px 0 var(--green-dark); }
+.btn-primary:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--green-dark); }
+.btn-secondary { background: var(--orange); box-shadow: 0 5px 0 var(--orange-dark); }
+.btn-secondary:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--orange-dark); }
+.btn:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
 
 .btn-mode {
   text-align: left;
@@ -156,8 +169,8 @@ main#app {
 /* ---------------- Home: list picker ---------------- */
 .list-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
 }
 .list-card {
   position: relative;
@@ -165,26 +178,26 @@ main#app {
   text-align: left;
   background: #FFF6E0;
   border: none;
-  border-left: 8px solid var(--marigold);
-  border-radius: 12px;
-  padding: 16px 18px;
+  border-left: 9px solid var(--green);
+  border-radius: 14px;
+  padding: 18px 20px;
   cursor: pointer;
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 0 rgba(51, 81, 63, 0.12);
   display: flex;
   flex-direction: column;
   gap: 6px;
-  min-height: 78px;
+  min-height: 84px;
 }
-.list-card:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1); }
-.list-card-custom { border-left-color: var(--sky); }
-.list-card-name { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--ink); }
-.list-card-count { font-size: 0.9rem; color: var(--ink-soft); }
+.list-card:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(51, 81, 63, 0.12); }
+.list-card-custom { border-left-color: var(--orange); }
+.list-card-name { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; color: var(--ink); }
+.list-card-count { font-size: 0.95rem; color: var(--ink-soft); }
 .list-delete-btn {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: none;
   background: var(--coral);
@@ -197,61 +210,61 @@ main#app {
 .field-label { font-weight: 700; font-size: 0.95rem; color: var(--ink); margin-top: 6px; }
 .text-input, .text-area {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 1.05rem;
   border: 2px solid var(--paper-line);
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 12px 14px;
   background: white;
   width: 100%;
   resize: vertical;
 }
-.text-input:focus, .text-area:focus { outline: none; border-color: var(--sky); }
+.text-input:focus, .text-area:focus { outline: none; border-color: var(--green); }
 .file-input { font-family: var(--font-body); }
 
 /* ---------------- Gap-fill game ---------------- */
 .prompt-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: #EAF6FA;
-  border-radius: 14px;
-  padding: 14px 18px;
+  gap: 16px;
+  background: #EDF7EE;
+  border-radius: 16px;
+  padding: 16px 20px;
   align-self: flex-start;
 }
-.prompt-word { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; color: var(--ink); }
+.prompt-word { font-family: var(--font-display); font-weight: 700; font-size: 1.9rem; color: var(--ink); }
 .speaker-btn {
   border: none;
-  background: var(--sky);
+  background: var(--orange);
   color: white;
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 3px 0 var(--sky-dark);
+  box-shadow: 0 3px 0 var(--orange-dark);
   flex-shrink: 0;
 }
-.speaker-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--sky-dark); }
-.speaker-btn-small { width: 30px; height: 30px; box-shadow: none; background: transparent; color: var(--sky-dark); }
+.speaker-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--orange-dark); }
+.speaker-btn-small { width: 34px; height: 34px; box-shadow: none; background: transparent; color: var(--orange-dark); }
 
 .word-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
   margin: 6px 0;
 }
 .letter-box {
-  width: 46px;
-  height: 54px;
-  border-radius: 10px;
+  width: 55px;
+  height: 65px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: var(--ink);
 }
 .letter-box.filled { background: var(--paper-line); }
@@ -259,29 +272,41 @@ main#app {
   background: white;
   border: 3px dashed var(--ink-soft);
 }
-.letter-box.slot-active { border-color: var(--marigold); border-style: solid; }
-.letter-box.box-correct { background: #DCF3E3; border-color: var(--grass); border-style: solid; color: var(--grass-dark); }
-.letter-box.box-wrong { background: #FBE2E1; border-color: var(--coral); border-style: solid; color: var(--coral-dark); }
+.letter-box.slot-active { border-color: var(--orange); border-style: solid; }
+.letter-box.box-correct {
+  background: #DEF3E1;
+  border-color: var(--green);
+  border-style: solid;
+  color: var(--green-dark);
+  animation: pop-anim 0.35s ease;
+}
+.letter-box.box-wrong {
+  background: #FBE4E2;
+  border-color: var(--coral);
+  border-style: solid;
+  color: var(--coral-dark);
+  animation: shake-anim 0.4s ease;
+}
 
 .tile-tray {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  min-height: 64px;
-  padding: 10px;
-  background: rgba(0,0,0,0.03);
-  border-radius: 12px;
+  gap: 12px;
+  min-height: 76px;
+  padding: 12px;
+  background: rgba(51, 81, 63, 0.05);
+  border-radius: 14px;
 }
 .tile {
-  width: 48px;
-  height: 54px;
-  border-radius: 10px;
-  background: var(--marigold);
-  box-shadow: 0 4px 0 var(--marigold-dark);
-  color: white;
+  width: 58px;
+  height: 65px;
+  border-radius: 12px;
+  background: var(--sun);
+  box-shadow: 0 4px 0 #C9962B;
+  color: var(--ink);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -292,62 +317,176 @@ main#app {
 .tile.dragging { cursor: grabbing; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
 .slot .tile { box-shadow: none; }
 
+/* Reserves a dragged tile's spot in the tray so siblings don't jump into
+   the gap while the drag is still in progress. */
+.tile-placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .feedback { font-weight: 700; min-height: 1.4em; }
-.feedback-correct { color: var(--grass-dark); }
+.feedback-correct { color: var(--green-dark); }
 .feedback-incorrect { color: var(--coral-dark); }
 
-/* ---------------- On-screen keyboard ---------------- */
-.keyboard { display: flex; flex-direction: column; gap: 8px; align-items: center; margin-top: 4px; }
-.keyboard-row { display: flex; gap: 6px; }
+/* ---------------- On-screen keyboard (enlarged for small hands / touch) ---------------- */
+.keyboard { display: flex; flex-direction: column; gap: 10px; align-items: center; margin-top: 4px; }
+.keyboard-row { display: flex; gap: 8px; }
 .key {
-  min-width: 34px;
-  height: 46px;
-  padding: 0 8px;
+  min-width: 50px;
+  height: 60px;
+  padding: 0 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--ink);
   color: white;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   cursor: pointer;
-  box-shadow: 0 3px 0 #10192B;
+  box-shadow: 0 4px 0 #1E3327;
   touch-action: manipulation;
 }
-.key:active { transform: translateY(2px); box-shadow: 0 1px 0 #10192B; }
-.key-wide { min-width: 62px; background: var(--ink-soft); box-shadow: 0 3px 0 #3A4568; }
+.key:active { transform: translateY(3px); box-shadow: 0 1px 0 #1E3327; }
+.key-wide { min-width: 90px; background: var(--ink-soft); box-shadow: 0 4px 0 #45604F; }
 
 /* ---------------- Sort game ---------------- */
-.sort-slots { display: flex; flex-wrap: wrap; gap: 10px; }
+.sort-slots { display: flex; flex-wrap: wrap; gap: 12px; }
 .sort-slot {
-  min-width: 120px;
-  min-height: 58px;
-  border-radius: 12px;
+  min-width: 144px;
+  min-height: 70px;
+  border-radius: 14px;
   border: 3px dashed var(--ink-soft);
   background: white;
-  flex: 1 1 120px;
+  flex: 1 1 144px;
 }
-.sort-slot.slot-correct { border-color: var(--grass); border-style: solid; background: #DCF3E3; }
-.sort-slot.slot-wrong { border-color: var(--coral); border-style: solid; background: #FBE2E1; }
+.sort-slot.slot-correct {
+  border-color: var(--green);
+  border-style: solid;
+  background: #DEF3E1;
+  animation: pop-anim 0.35s ease;
+}
+.sort-slot.slot-wrong {
+  border-color: var(--coral);
+  border-style: solid;
+  background: #FBE4E2;
+  animation: shake-anim 0.4s ease;
+}
 
-.sort-tray { min-height: 70px; }
+.sort-tray { min-height: 82px; }
 .tile-word {
   width: auto;
-  min-width: 120px;
-  padding: 0 12px;
+  min-width: 144px;
+  padding: 0 14px;
   gap: 8px;
-  background: var(--sky);
-  box-shadow: 0 4px 0 var(--sky-dark);
-  font-size: 1.1rem;
+  background: var(--green);
+  box-shadow: 0 4px 0 var(--green-dark);
+  color: white;
+  font-size: 1.3rem;
 }
 .slot .tile-word { box-shadow: none; }
 
 /* ---------------- Results ---------------- */
 .results-score {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 2.3rem;
   font-weight: 800;
-  color: var(--grass-dark);
+  color: var(--green-dark);
+}
+
+/* ---------------- Toasts (per-answer cue) ---------------- */
+.toast-host {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+.toast {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+  padding: 11px 24px;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(51, 81, 63, 0.25);
+  opacity: 0;
+  transform: translateY(-12px) scale(0.95);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.toast-success { background: var(--green); }
+.toast-error { background: var(--coral); }
+.toast-in { opacity: 1; transform: translateY(0) scale(1); }
+.toast-out { opacity: 0; transform: translateY(-8px) scale(0.97); }
+
+/* ---------------- Celebration overlay (full-game perfect score) ---------------- */
+.celebration-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.celebration-overlay.celebration-in { opacity: 1; }
+.celebration-overlay.celebration-out { opacity: 0; }
+.celebration-card {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.7rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 4px solid var(--orange);
+  border-radius: 26px;
+  padding: 28px 36px;
+  box-shadow: 0 14px 0 var(--orange-dark), 0 20px 40px rgba(51, 81, 63, 0.3);
+  text-align: center;
+  max-width: 80vw;
+  transform: scale(0.85);
+  transition: transform 0.3s ease;
+}
+.celebration-overlay.celebration-in .celebration-card { transform: scale(1); }
+
+/* Easter egg: gentle falling emoji around the celebration card, only for
+   specific word lists (see EASTER_EGG_EMOJI in app.js). */
+.emoji-rain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.emoji-drop {
+  position: absolute;
+  top: -10%;
+  animation-name: emoji-fall;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+@keyframes emoji-fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(115vh) rotate(45deg); opacity: 0.9; }
+}
+
+/* ---------------- Feedback micro-animations ---------------- */
+@keyframes pop-anim {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.14); }
+  100% { transform: scale(1); }
+}
+@keyframes shake-anim {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
 }
 
 /* ---------------- Motion & accessibility ---------------- */
@@ -357,9 +496,10 @@ main#app {
 
 /* ---------------- Responsive ---------------- */
 @media (max-width: 480px) {
-  .screen { padding: 20px 16px 24px; border-radius: 18px; }
-  .app-header-title { font-size: 1.15rem; }
-  .letter-box { width: 38px; height: 46px; font-size: 1.2rem; }
-  .tile { width: 40px; height: 46px; font-size: 1.15rem; }
-  .key { min-width: 28px; height: 40px; font-size: 0.95rem; }
+  .screen { padding: 24px 18px 28px; border-radius: 20px; }
+  .app-header-title { font-size: 1.3rem; }
+  .letter-box { width: 42px; height: 52px; font-size: 1.35rem; }
+  .tile { width: 44px; height: 52px; font-size: 1.25rem; }
+  .key { min-width: 36px; height: 48px; font-size: 1.05rem; }
+  .key-wide { min-width: 60px; }
 }

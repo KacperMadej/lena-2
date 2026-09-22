@@ -10,6 +10,11 @@
 // than the native `dblclick` event, so it behaves the same on a touchscreen
 // tablet as it does with a mouse during desktop testing.
 //
+// While a tile is being dragged out of a multi-tile container (the letter
+// tray), a same-sized invisible placeholder is left in its place so the
+// remaining tiles don't reflow into the gap until the drag actually
+// resolves — reflowing immediately reads as tiles "jumping" on their own.
+//
 // Usage: makeSortable({ tiles, slots, onChange }) where `tiles` are the
 // draggable elements (already placed somewhere, e.g. in a tray) and `slots`
 // are drop targets. Dropping (or quick-placing) a tile onto an occupied
@@ -23,6 +28,7 @@ export function makeSortable({ tiles, slots, onChange }) {
   let dragEl = null;
   let startParent = null;
   let startNext = null;
+  let placeholder = null;
   let offsetX = 0;
   let offsetY = 0;
   let downX = 0;
@@ -51,6 +57,20 @@ export function makeSortable({ tiles, slots, onChange }) {
     const rect = tile.getBoundingClientRect();
     offsetX = e.clientX - rect.left;
     offsetY = e.clientY - rect.top;
+
+    // Reserve the tile's spot so sibling tiles don't reflow into the gap
+    // while it's mid-drag. Only needed for multi-tile containers (the
+    // tray) — a slot only ever holds one tile, so there's nothing to
+    // reflow there, and giving a slot a second (hidden) child would
+    // confuse the "is this slot empty" checks elsewhere.
+    placeholder = null;
+    if (!slots.includes(startParent)) {
+      placeholder = document.createElement('div');
+      placeholder.className = 'tile-placeholder';
+      placeholder.style.width = rect.width + 'px';
+      placeholder.style.height = rect.height + 'px';
+      startParent.insertBefore(placeholder, startNext);
+    }
 
     tile.classList.add('dragging');
     tile.style.width = rect.width + 'px';
@@ -92,6 +112,20 @@ export function makeSortable({ tiles, slots, onChange }) {
     tile.classList.remove('dragging');
   }
 
+  function clearPlaceholder() {
+    if (placeholder) {
+      placeholder.remove();
+      placeholder = null;
+    }
+  }
+
+  // Put the tile back exactly where it (and its reserved placeholder, if
+  // any) was, then drop the placeholder now that the space is needed again.
+  function returnToOrigin(tile) {
+    startParent.insertBefore(tile, placeholder || startNext);
+    clearPlaceholder();
+  }
+
   function isInASlot(tile) {
     return !!tile.parentElement && slots.includes(tile.parentElement);
   }
@@ -127,7 +161,7 @@ export function makeSortable({ tiles, slots, onChange }) {
       // Not a drag — put the tile back exactly where it was, then check
       // whether this tap arrived quickly enough after a previous one on
       // the same tile to count as a double-tap.
-      startParent.insertBefore(tile, startNext);
+      returnToOrigin(tile);
       dragEl = null;
 
       const now = Date.now();
@@ -149,13 +183,15 @@ export function makeSortable({ tiles, slots, onChange }) {
     if (slot && slots.includes(slot) && slot !== tile.parentElement) {
       const occupant = slot.firstElementChild;
       if (occupant && occupant !== tile) {
-        // Bump whatever was already in the slot back to where this tile came from.
-        startParent.insertBefore(occupant, startNext);
+        // Bump whatever was already in the slot back to where this tile
+        // started from (its reserved placeholder spot, if there was one).
+        startParent.insertBefore(occupant, placeholder || startNext);
       }
+      clearPlaceholder();
       slot.appendChild(tile);
     } else {
       // Dropped back on its own slot, or an invalid target: snap back.
-      startParent.insertBefore(tile, startNext);
+      returnToOrigin(tile);
     }
 
     dragEl = null;

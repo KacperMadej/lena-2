@@ -75,6 +75,7 @@ const BUILTIN_FILES = [
   { id: 'months', file: 'data/months.csv', namePl: 'Miesiące' },
   { id: 'colors', file: 'data/colors.csv', namePl: 'Podstawowe kolory' },
   { id: 'numbers', file: 'data/numbers.csv', namePl: 'Liczby 1-20' },
+  { id: 'seasons', file: 'data/seasons.csv', namePl: 'Pory roku' },
 ];
 
 export async function loadBuiltinLists() {

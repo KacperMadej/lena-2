@@ -38,7 +38,14 @@ const STRINGS = {
   resultsTitle: 'Wynik',
   playAgain: 'Zagraj ponownie',
   backToHome: 'Powrót do listy słówek',
+  perfectScore: 'Wszystko na 100%! Świetna robota!',
 };
+
+const PRAISE_PHRASES = ['Super!', 'Brawo!', 'Świetnie!', 'Tak trzymaj!', 'Wspaniale!'];
+
+export function randomPraise() {
+  return PRAISE_PHRASES[Math.floor(Math.random() * PRAISE_PHRASES.length)];
+}
 
 export function t(key) {
   return STRINGS[key] || key;
